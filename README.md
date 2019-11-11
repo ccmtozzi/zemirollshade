@@ -1,5 +1,5 @@
-# Zemismart Roll Shade Integration
-Zemismart Rollshade Wifi Integration
+# Zemismart Roller Shade Integration
+This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade, it's listen to an mqtt topic and execute a close or open command based on MQTT.
 
 # Dependencies
 

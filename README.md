@@ -9,6 +9,8 @@ This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade
 
 # Home Assistant Config:
 
+Just add a MQTT switch:
+
 ```yaml
 - platform: mqtt
   name: "Curtain Bedroom"

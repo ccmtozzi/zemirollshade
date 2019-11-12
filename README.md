@@ -7,7 +7,7 @@ This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade
 - bluepy (sudo pip install bluepy)
 - libglib2.0-dev (sudo apt-get install libglib2.0-dev)
 
-# Home Assistant Config:
+# Home Assistant Config
 
 Just add a MQTT switch:
 
@@ -24,3 +24,8 @@ Just add a MQTT switch:
   retain: false
   optimistic: false
 ```
+
+# What Next?
+
+- Get information from the Shade (battery, state, etc..), currently it's just sending command, for open and close.
+- ESP32 version - Would prefer to run this in a ESP32 instead of a Raspberry PI

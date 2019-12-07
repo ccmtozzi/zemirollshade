@@ -20,15 +20,15 @@ open = "\x00\xff\x00\x00\x9a\x0d\x01\x00\x96"
 close = "\x00\xff\x00\x00\x9a\x0d\x01\x64\xf2"
 
 def shade_command(fble, fcmd):
-    print "["+ fble + "] Connecting"
+    print ("["+ fble + "] Connecting")
     dev = btle.Peripheral(fble)
-    print "["+ fble + "] Connected!"
+    print ("["+ fble + "] Connected!")
     chs = dev.getCharacteristics()
     for ch in chs:
       if ch.uuid == "0000fe51-0000-1000-8000-00805f9b34fb":
         ch.write(fcmd)
     dev.disconnect
-    print  "["+ fble + "] Disconnected" 
+    print  ("["+ fble + "] Disconnected")
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -46,41 +46,42 @@ def checkMAC(x):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
+#    print ("message comming in")
     mac = msg.topic.replace(mqtt_path + "/", "")
     if checkMAC(mac) == 0 and (msg.payload == open or msg.payload == close):
-       print "["+ mac + "] Is not a valid Mac Address"
-       return 
-    if msg.payload == "open":
+       print ("["+ mac + "] Is not a valid Mac Address")
+       return
+    if msg.payload.decode() == "open":
       t = 1
-      while t <= 3: 
+      while t <= 3:
         try:
           shade_command(mac, open)
           client.publish(msg.topic + "/status", "on", qos=0, retain=False)
-          print "["+ mac + "] Status Published: " + msg.topic + "/status"
-          print "["+ mac + "] Finished"
+          print ("["+ mac + "] Status Published: " + msg.topic + "/status")
+          print ("["+ mac + "] Finished")
           break
         except:
           time.sleep(0.5)
           if t <= 3:
-            print "["+ mac + "] Error! - Trying to Connect Again! (" + str(t) + "/3)" 
+            print ("["+ mac + "] Error! - Trying to Connect Again! (" + str(t) + "/3)")
           else:
-            print "["+ mac + "] Error! - Can't Connect"
+            print ("["+ mac + "] Error! - Can't Connect")
           t += 1
-    if msg.payload == "close":
+    if msg.payload.decode() == "close":
       t = 1
       while t <= 3:
         try:
           shade_command(mac, close)
           client.publish(msg.topic + "/status", "off", qos=0, retain=False)
-          print "["+ mac + "] Status Published: " + msg.topic + "/status"
-          print "["+ mac + "] Finished"
+          print ("["+ mac + "] Status Published: " + msg.topic + "/status")
+          print ("["+ mac + "] Finished")
           break
         except:
           time.sleep(0.5)
           if t <= 3:
-            print "["+ mac + "] Error! - Trying to Connect Again! (" + str(t) + "/3)"
+            print ("["+ mac + "] Error! - Trying to Connect Again! (" + str(t) + "/3)")
           else:
-            print "["+ mac + "] Error! - Can't Connect"
+            print ("["+ mac + "] Error! - Can't Connect")
           t += 1
 
 client = mqtt.Client()

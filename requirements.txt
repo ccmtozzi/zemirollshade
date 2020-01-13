@@ -1,0 +1,3 @@
+paho-mqtt
+bluepy
+git+git://github.com/stcbus/python-zemismart-roller-shade.git#egg=zemirollshade

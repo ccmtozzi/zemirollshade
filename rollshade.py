@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-from bluepy import *
 import paho.mqtt.client as mqtt
 import time
 import re
+import Zemismart
 
 ### Variables
 
@@ -10,24 +10,24 @@ mqtt_client = "192.168.1.1" #mqtt IP
 mqtt_port = 1883
 mqtt_user = "username"
 mqtt_password = "password"
-mqtt_path = "curtains"
+mqtt_path = "blinds"
+dev_pin = 8888
 
 ####  Don't edit below here
 
-#btle.Debugging=True
+# btle.Debugging=True
 
-open = "\x00\xff\x00\x00\x9a\x0d\x01\x00\x96"
-close = "\x00\xff\x00\x00\x9a\x0d\x01\x64\xf2"
 
 def shade_command(fble, fcmd):
     print ("["+ fble + "] Connecting")
-    dev = btle.Peripheral(fble)
+    shade = Zemismart.Zemismart(fble, dev_pin)
+    shade.connect()
     print ("["+ fble + "] Connected!")
-    chs = dev.getCharacteristics()
-    for ch in chs:
-      if ch.uuid == "0000fe51-0000-1000-8000-00805f9b34fb":
-        ch.write(fcmd)
-    dev.disconnect
+    if fcmd == "open":
+        shade.open()
+    elif fcmd == "close":
+        shade.close()
+    shade.disconnect()
     print  ("["+ fble + "] Disconnected")
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -55,7 +55,7 @@ def on_message(client, userdata, msg):
       t = 1
       while t <= 3:
         try:
-          shade_command(mac, open)
+          shade_command(mac, "open")
           client.publish(msg.topic + "/status", "on", qos=0, retain=False)
           print ("["+ mac + "] Status Published: " + msg.topic + "/status")
           print ("["+ mac + "] Finished")
@@ -71,7 +71,7 @@ def on_message(client, userdata, msg):
       t = 1
       while t <= 3:
         try:
-          shade_command(mac, close)
+          shade_command(mac, "close")
           client.publish(msg.topic + "/status", "off", qos=0, retain=False)
           print ("["+ mac + "] Status Published: " + msg.topic + "/status")
           print ("["+ mac + "] Finished")

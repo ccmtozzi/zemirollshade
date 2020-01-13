@@ -1,11 +1,21 @@
 # Zemismart Roller Shade Integration
 This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade, it's listen to an MQTT topic and execute a close or open command based on that topic.
 
-# Dependencies
+# Requirements
 
-- paho-mqtt (pip install paho-mqtt)
-- bluepy (sudo pip install bluepy)
+- Python 3+
+- pip (to automatically install dependencies)
+
+# Dependencies
+- paho-mqtt
+- bluepy
+- Zemismart
 - libglib2.0-dev (sudo apt-get install libglib2.0-dev)
+
+# Install
+
+1. Download or clone the repository:
+2. In the directory run ```pip install -r requirements.txt```
 
 # Home Assistant Config
 

@@ -9,7 +9,7 @@ This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade
 # Dependencies
 - paho-mqtt
 - bluepy
-- Zemismart
+- [Zemismart](https://github.com/GylleTanken/python-zemismart-roller-shade)
 - libglib2.0-dev ```sudo apt-get install libglib2.0-dev```
 
 # Install

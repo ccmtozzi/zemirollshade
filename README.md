@@ -16,6 +16,7 @@ This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade
 
 1. Download or clone the repository:
 2. In the directory run ```pip install -r requirements.txt```
+3. Configure details in ```rollshade.py``` and then run with ```python rollshade.py```
 
 # Home Assistant Config
 

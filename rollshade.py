@@ -27,6 +27,10 @@ def shade_command(fble, fcmd):
         shade.open()
     elif fcmd == "close":
         shade.close()
+    elif fcmd == "stop":
+        shade.stop()
+    else:
+        print("Unrecognized command.")
     shade.disconnect()
     print  ("["+ fble + "] Disconnected")
 

@@ -20,20 +20,21 @@ This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade
 
 # Home Assistant Config
 
-Just add a MQTT switch:
+Just add a MQTT cover:
 
 ```yaml
-- platform: mqtt
-  name: "Curtain Bedroom"
-  state_topic: "curtains/00:00:00:00:00:00/status"
-  command_topic: "curtains/00:00:00:00:00:00"
-  qos: 0
-  state_on: "on"
-  state_off: "off"
-  payload_on: "open"
-  payload_off: "close"
-  retain: false
-  optimistic: false
+cover:
+  - platform: mqtt
+    name: "Blinds Bedroom"
+    state_topic: "blinds/02:D6:32:D3:A8:B0/status"
+    command_topic: "blinds/02:D6:32:D3:A8:B0"
+    qos: 0
+    state_open: "on"
+    state_closed: "off"
+    payload_open: "open"
+    payload_close: "close"
+    retain: false
+    optimistic: false
 ```
 
 # What Next?

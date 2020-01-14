@@ -21,18 +21,17 @@ dev_pin = 8888
 def shade_command(fble, fcmd):
     print ("["+ fble + "] Connecting")
     shade = Zemismart.Zemismart(fble, dev_pin)
-    shade.connect()
-    print ("["+ fble + "] Connected!")
-    if fcmd == "open":
-        shade.open()
-    elif fcmd == "close":
-        shade.close()
-    elif fcmd == "stop":
-        shade.stop()
-    else:
-        print("Unrecognized command.")
-    shade.disconnect()
-    print  ("["+ fble + "] Disconnected")
+    with shade:
+      print ("["+ fble + "] Connected!")
+      if fcmd == "open":
+          shade.open()
+      elif fcmd == "close":
+          shade.close()
+      elif fcmd == "stop":
+          shade.stop()
+      else:
+          print("Unrecognized command.")
+      print  ("["+ fble + "] Disconnected")
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):

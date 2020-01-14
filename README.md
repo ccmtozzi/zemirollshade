@@ -23,11 +23,12 @@ This is a Python script to connect a Raspberry PI to a Zemismart Roller Shade. I
 Just add a MQTT cover:
 
 ```yaml
+...
 cover:
   - platform: mqtt
     name: "Blinds Bedroom"
-    state_topic: "blinds/02:D6:32:D3:A8:B0/status"
-    command_topic: "blinds/02:D6:32:D3:A8:B0"
+    state_topic: "blinds/00:00:00:00:00:00/status"
+    command_topic: "blinds/00:00:00:00:00:00"
     qos: 0
     state_open: "on"
     state_closed: "off"

@@ -88,21 +88,21 @@ def on_message(client, userdata, msg):
             print ("["+ mac + "] Error! - Can't Connect")
           t += 1
     if msg.payload.decode() == "stop":
-        t = 1
-        while t <= 3:
+      t = 1
+      while t <= 3:
         try:
-            shade_command(mac, "stop")
-            client.publish(msg.topic + "/status", "off", qos=0, retain=False)
-            print ("["+ mac + "] Status Published: " + msg.topic + "/status")
-            print ("["+ mac + "] Finished")
-            break
+          shade_command(mac, "stop")
+          client.publish(msg.topic + "/status", "on", qos=0, retain=False)
+          print ("["+ mac + "] Status Published: " + msg.topic + "/status")
+          print ("["+ mac + "] Finished")
+          break
         except:
-            time.sleep(0.5)
-            if t <= 3:
+          time.sleep(0.5)
+          if t <= 3:
             print ("["+ mac + "] Error! - Trying to Connect Again! (" + str(t) + "/3)")
-            else:
+          else:
             print ("["+ mac + "] Error! - Can't Connect")
-            t += 1
+          t += 1
 
 client = mqtt.Client()
 client.on_connect = on_connect

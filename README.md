@@ -1,28 +1,41 @@
 # Zemismart Roller Shade Integration
-This is a pythons script to connect an Raspberry PI to an Zemismart Roller Shade, it's listen to an MQTT topic and execute a close or open command based on that topic.
+This is a Python script to connect a Raspberry PI to a Zemismart Roller Shade. It listens to an MQTT topic and executes a close or open command based on that topic.
+
+# Requirements
+
+- Python 3+
+- pip (to automatically install python dependencies)
 
 # Dependencies
+- paho-mqtt
+- bluepy
+- [Zemismart](https://github.com/GylleTanken/python-zemismart-roller-shade)
+- libglib2.0-dev ```sudo apt-get install libglib2.0-dev```
 
-- paho-mqtt (pip install paho-mqtt)
-- bluepy (sudo pip install bluepy)
-- libglib2.0-dev (sudo apt-get install libglib2.0-dev)
+# Install
+
+1. Download or clone the repository:
+2. In the directory run ```pip install -r requirements.txt```
+3. Configure details in ```rollshade.py``` and then run with ```python rollshade.py```
 
 # Home Assistant Config
 
-Just add a MQTT switch:
+Just add a MQTT cover:
 
 ```yaml
-- platform: mqtt
-  name: "Curtain Bedroom"
-  state_topic: "curtains/00:00:00:00:00:00/status"
-  command_topic: "curtains/00:00:00:00:00:00"
-  qos: 0
-  state_on: "on"
-  state_off: "off"
-  payload_on: "open"
-  payload_off: "close"
-  retain: false
-  optimistic: false
+...
+cover:
+  - platform: mqtt
+    name: "Blinds Bedroom"
+    state_topic: "blinds/00:00:00:00:00:00/status"
+    command_topic: "blinds/00:00:00:00:00:00"
+    qos: 0
+    state_open: "on"
+    state_closed: "off"
+    payload_open: "open"
+    payload_close: "close"
+    retain: false
+    optimistic: false
 ```
 
 # What Next?

@@ -53,7 +53,9 @@ def checkMAC(x):
 def on_message(client, userdata, msg):
 #    print ("message comming in")
     mac = msg.topic.replace(mqtt_path + "/", "")
-    if checkMAC(mac) == 0 and (msg.payload == open or msg.payload == close):
+    if msg.topic.find("set_position") > 0:
+       mac = mac.replace("/set_position", "")
+    if checkMAC(mac) == 0:
        print ("["+ mac + "] Is not a valid Mac Address")
        return
     if msg.topic == (mqtt_path + "/" + mac + "/position"):

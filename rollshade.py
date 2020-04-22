@@ -18,7 +18,7 @@ dev_pin = 8888
 # btle.Debugging=True
 
 
-def shade_command(fble, fcmd):
+def shade_command(fble, fcmd, fpos=100):
     print ("["+ fble + "] Connecting")
     shade = Zemismart.Zemismart(fble, dev_pin)
     with shade:
@@ -29,6 +29,8 @@ def shade_command(fble, fcmd):
           shade.close()
       elif fcmd == "stop":
           shade.stop()
+      elif fcmd == "set_position":
+          shade.set_position(fpos)
       else:
           print("Unrecognized command.")
       print  ("["+ fble + "] Disconnected")
@@ -54,6 +56,22 @@ def on_message(client, userdata, msg):
     if checkMAC(mac) == 0 and (msg.payload == open or msg.payload == close):
        print ("["+ mac + "] Is not a valid Mac Address")
        return
+    if msg.topic == (mqtt_path + "/" + mac + "/position"):
+      t = 1
+      while t <= 3:
+        try:
+          shade_command(mac, "set_position", msg.payload.decode())
+          client.publish(msg.topic + "/position", msg.payload.decode(), qos=0, retain=False)
+          print ("["+ mac + "] Status Published: " + msg.topic + "/position")
+          print ("["+ mac + "] Finished")
+          break
+        except:
+          time.sleep(0.5)
+          if t <= 3:
+            print ("["+ mac + "] Error! - Trying to Connect Again! (" + str(t) + "/3)")
+          else:
+            print ("["+ mac + "] Error! - Can't Connect")
+          t += 1
     if msg.payload.decode() == "open":
       t = 1
       while t <= 3:

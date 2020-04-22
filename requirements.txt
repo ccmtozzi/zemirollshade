@@ -1,0 +1,3 @@
+paho-mqtt
+bluepy
+git+git://github.com/GylleTanken/python-zemismart-roller-shade.git#egg=Zemismart

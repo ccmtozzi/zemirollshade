@@ -30,7 +30,7 @@ def shade_command(fble, fcmd, fpos=100):
       elif fcmd == "stop":
           shade.stop()
       elif fcmd == "set_position":
-          shade.set_position(fpos)
+          shade.set_position(int(fpos))
       else:
           print("Unrecognized command.")
       print  ("["+ fble + "] Disconnected")
@@ -55,16 +55,20 @@ def on_message(client, userdata, msg):
     mac = msg.topic.replace(mqtt_path + "/", "")
     if msg.topic.find("set_position") > 0:
        mac = mac.replace("/set_position", "")
+    if msg.topic.find("status") > 0:
+       mac = mac.replace("/status", "")
+    if msg.topic.find("/position") > 0:
+       mac = mac.replace("/position", "")
     if checkMAC(mac) == 0:
        print ("["+ mac + "] Is not a valid Mac Address")
        return
-    if msg.topic == (mqtt_path + "/" + mac + "/position"):
+    if msg.topic == (mqtt_path + "/" + mac + "/set_position"):
       t = 1
       while t <= 3:
         try:
           shade_command(mac, "set_position", msg.payload.decode())
-          client.publish(msg.topic + "/position", msg.payload.decode(), qos=0, retain=False)
-          print ("["+ mac + "] Status Published: " + msg.topic + "/position")
+          client.publish(msg.topic.replace("/set_position", "") + "/position", msg.payload.decode(), qos=0, retain=False)
+          print ("["+ mac + "] Status Published: " + msg.topic.replace("/set_position", "") + "/position")
           print ("["+ mac + "] Finished")
           break
         except:
